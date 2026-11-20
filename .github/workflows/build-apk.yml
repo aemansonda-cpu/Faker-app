@@ -1,0 +1,25 @@
+name: Build LiteBrowser APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ArtemSBulgakov/buildozer-action@v1
+        id: buildozer
+        with:
+          workdir: .
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: LiteBrowser-APK
+          path: ${{ steps.buildozer.outputs.filename }}
